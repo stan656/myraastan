@@ -1,219 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Myraa 💗</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
-    <style>
-        :root { --accent: #ff85a2; --soft-pink: #ffb3c1; --dark-blue: #1a1a2e; }
-        body { margin: 0; font-family: 'Quicksand', sans-serif; background: #0a0a12; color: white; min-height: 100vh; overflow-x: hidden; cursor: crosshair; }
-        canvas#stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+<meta charset="UTF-8">
+<title>For Myraa 💗</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
-        #lock { position: fixed; inset: 0; background: var(--dark-blue); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: all 1s ease; }
-        #lock.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-        #lock h1 { font-family: 'Dancing Script'; font-size: 3.5rem; color: var(--accent); }
-        input { background: rgba(255,255,255,0.05); border: 1px solid var(--accent); padding: 15px; border-radius: 30px; color: white; width: 280px; text-align: center; outline: none; margin-bottom: 20px; font-size: 1rem; }
-        
-        .container { position: relative; z-index: 10; max-width: 1100px; margin: auto; padding: 40px 20px; text-align: center; }
-        header h1 { font-family: 'Dancing Script'; font-size: 4.5rem; color: var(--accent); margin-bottom: 10px; }
-        .btn { background: var(--accent); color: white; padding: 12px 40px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; margin: 10px; }
-        
-        #game-area { display: none; position: relative; width: 100%; height: 250px; background: rgba(255,255,255,0.05); border-radius: 20px; margin: 20px 0; overflow: hidden; border: 1px dashed var(--accent); }
-        .falling-heart { position: absolute; font-size: 25px; cursor: pointer; user-select: none; }
+<style>
+body{
+margin:0;
+font-family:'Quicksand',sans-serif;
+background:linear-gradient(135deg,#ff9ec4,#ff4fa3);
+color:white;
+overflow-x:hidden;
+}
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-top: 30px; }
-        .card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 35px 20px; border-radius: 25px; cursor: pointer; transition: 0.4s; backdrop-filter: blur(5px); }
-        .card:hover:not(.is-locked) { border-color: var(--accent); transform: translateY(-10px); background: rgba(255, 255, 255, 0.07); }
-        .is-locked { cursor: not-allowed; opacity: 0.4; filter: grayscale(1); }
-        .card h3 { font-family: 'Dancing Script'; font-size: 2.2rem; color: var(--accent); margin: 0; }
+h1{
+text-align:center;
+font-family:'Dancing Script',cursive;
+font-size:4rem;
+margin-top:30px;
+}
 
-        .sparkle { position: absolute; width: 8px; height: 8px; background: var(--soft-pink); border-radius: 50%; pointer-events: none; animation: explode 0.7s ease-out forwards; z-index: 2000; }
-        @keyframes explode { to { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } }
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+padding:40px;
+max-width:1200px;
+margin:auto;
+}
 
-        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-        .modal-box { background: white; color: #1a1a2e; padding: 40px; border-radius: 30px; max-width: 700px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative; }
-        #text { line-height: 1.8; font-size: 1.1rem; white-space: pre-wrap; text-align: left; margin-bottom: 20px; }
-        .close { position: absolute; top: 15px; right: 20px; cursor: pointer; color: var(--accent); font-size: 24px; }
+.card{
+background:white;
+color:#ff4fa3;
+padding:30px;
+border-radius:25px;
+text-align:center;
+cursor:pointer;
+transition:.3s;
+font-weight:bold;
+}
 
-        #proposal-btns { display: none; justify-content: center; gap: 20px; margin-top: 25px; }
-        .choice-btn { padding: 15px 45px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; font-size: 1.2rem; transition: 0.3s; }
-        #yes-btn { background: #ff4d6d; color: white; }
-        #no-btn { background: #ddd; color: #777; position: relative; }
-        
-        .apply-shake { animation: shake 0.2s infinite; }
-        @keyframes shake { 0% { transform: translate(2px, 1px) rotate(0deg); } 50% { transform: translate(-1px, -2px) rotate(-1deg); } 100% { transform: translate(1px, 2px) rotate(0deg); } }
-        #cake-celebration { display: none; text-align: center; }
-    </style>
+.card:hover{
+transform:scale(1.07);
+box-shadow:0 0 25px rgba(255,255,255,.8);
+}
+
+#modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.85);
+justify-content:center;
+align-items:center;
+z-index:1000;
+}
+
+.modal-box{
+background:white;
+color:#333;
+padding:35px;
+border-radius:30px;
+max-width:900px;
+max-height:85vh;
+overflow-y:auto;
+position:relative;
+}
+
+.close{
+position:absolute;
+right:20px;
+top:15px;
+font-size:25px;
+cursor:pointer;
+color:#ff4fa3;
+}
+
+#text{
+white-space:pre-wrap;
+line-height:1.8;
+}
+
+#proposal{
+display:none;
+text-align:center;
+margin-top:25px;
+}
+
+.choice{
+padding:15px 40px;
+border:none;
+border-radius:30px;
+margin:10px;
+font-size:20px;
+cursor:pointer;
+}
+
+#yes{background:#ff4fa3;color:white;}
+#no{background:#eee;color:#999;position:relative;}
+
+#celebration{
+display:none;
+text-align:center;
+}
+
+.photos img{
+width:200px;
+border-radius:20px;
+margin:10px;
+box-shadow:0 0 20px pink;
+}
+
+.heart{
+position:fixed;
+font-size:25px;
+animation:fall 3s linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-100px);}
+100%{transform:translateY(100vh);}
+}
+</style>
 </head>
-<body onclick="spawnSparkles(event)">
 
-<canvas id="stars"></canvas>
+<body>
 
-<audio id="bgMusic" loop>
-    <source src="mayo.mp3" type="audio/mpeg">
-</audio>
-
-<div id="lock">
-    <h1>Hi Myraa 💗</h1>
-    <input type="password" id="pass" placeholder="Enter Our Secret Password">
-    <button class="btn" onclick="unlock()">Unlock My Heart</button>
-</div>
-
-<div class="container">
-    <header>
-        <h1>Meri Chaand 🌙</h1>
-        <p>Our song is playing... 🎵</p>
-        <button class="btn" onclick="toggleGame()">Play Heart Catch Game</button>
-        <div id="game-area">
-            <p style="margin-top: 15px; font-weight: bold;">Score: <span id="score">0</span></p>
-        </div>
-    </header>
-    <div class="grid" id="grid"></div>
-</div>
+<h1>Meri Chaand 🌙</h1>
+<div class="grid" id="grid"></div>
 
 <div id="modal">
-    <div class="modal-box">
-        <span class="close" onclick="closeModal()">✖</span>
-        <h2 id="modalTitle" style="font-family:'Dancing Script'; color:#be185d; font-size: 2.8rem;"></h2>
-        <div id="text"></div>
-        <div id="proposal-btns">
-            <button id="yes-btn" class="choice-btn" onclick="celebrate()">YES! ❤️</button>
-            <button id="no-btn" class="choice-btn" onmouseover="dodgeNo()">No</button>
-        </div>
-        <div id="cake-celebration">
-            <h2 style="font-family:'Dancing Script'; color:#ff4d6d; font-size:3.5rem;">I LOVE YOU FOREVER! 🎂✨</h2>
-            <div style="font-size: 5rem; margin: 20px 0;">🎂💍💗</div>
-        </div>
-    </div>
+<div class="modal-box">
+<div class="close" onclick="closeModal()">✖</div>
+<h2 id="title" style="font-family:'Dancing Script';color:#ff4fa3"></h2>
+<p id="text"></p>
+
+<div id="proposal">
+<h2 style="color:#ff4fa3;font-family:Dancing Script">Will you be my Valentine? 💖</h2>
+<button id="yes" class="choice" onclick="yes()">YES ❤️</button>
+<button id="no" class="choice" onmouseover="moveNo()">No</button>
+</div>
+
+<div id="celebration">
+<h1 style="color:#ff4fa3">THANK YOU FOR EVERYTHING 💗</h1>
+<p>I promise I won't hurt you or leave you. Ever. You are my forever.</p>
+
+<div class="photos">
+<img src="data:image/jpeg;base64,REPLACE1">
+<img src="data:image/jpeg;base64,REPLACE2">
+<img src="data:image/jpeg;base64,REPLACE3">
+</div>
+
+</div>
+
+</div>
 </div>
 
 <script>
-    const password = "stanlovesmyraamore";
-    
-    // Day messages (kept exactly as you wrote them)
-    const letters = [
-        `Day 1 – When We Found Each Other\n\nJaan meri jaan Baby I still remember the moment we found each other after everything we went through and it feels like the best thing that ever happened to me Jaanu we both had relationships before that didn’t work and it hurt us so much but then we found each other and it felt different like nothing I had ever felt before Baby I felt alive again I felt happy again I felt like I finally found someone who understands me and loves me the way I am Jaan meri jaan I remember us in ENT class making eye contact like idiots smiling at each other secretly and laughing without anyone noticing Baby it was embarrassing but I loved it so much because it was just us Jaanu I want to tell you I’m so sorry for all the times I hurt you Baby I will never hurt you again Jaan meri jaan I am so grateful for the second chance you gave us Baby I want to hold onto you forever love you forever and never let you go Jaanu you make me feel alive happy complete and I will always cherish every single moment with you Baby you are my heart my soul my life Jaan meri jaan`,
-        `Day 2 – First Kiss Under the Stars\n\nJaanu Babe I will never forget that night in Srf it was just us alone under the stars and everything felt quiet peaceful like the world was ours and then we kissed it was like time stopped and Baby your eyes were shining brighter than the stars above and I got lost in them Jaan meri jaan it was magical Baby I felt everything I ever wanted in that moment I wanted to hold you close forever never let go and just stay there with you looking into your eyes Jaanu I’m so grateful for that night Baby for our first kiss for the way you made me feel loved and wanted Jaan meri jaan Baby I want to say thank you for all the Snap vlogs the TikToks you send me the Mr Bean teddy bear the gifts the long letters you wrote Jaanu all of it means so much to me and I feel so lucky to have you Baby I promise I will never hurt you Jaan meri jaan I will always love you more than anything in the world and I will spend my life making you happy`,
-        `Day 3 – Starting Our Journey\n\nBaby Jaanu I remember 11 11 2025 the day we officially started dating Jaan meri jaan it felt like a new chapter a new life a story that was only ours Baby I was so happy excited nervous all at the same time because I finally had someone who loves me and I love you more than I can even say Jaanu you are so pretty loving caring and everything I could ever imagine Baby I remember the silly eye contacts in ENT class and the smiles we gave like idiots hiding our faces Jaan meri jaan Baby it was awkward but so perfect because it was us Jaanu I want to say I’m sorry for all the times I hurt you Baby thank you for giving us another chance Jaan meri jaan I will never hurt you again Baby I want to make you feel loved and happy every single day for the rest of my life Jaanu I love you Baby more than you could ever imagine and I am so grateful that you are mine`,
-        `Day 4 – Through All the Ups and Downs\n\nJaan meri jaan Baby life hasn’t been easy for us Jaanu we had people from our past like Hafizur in your life and Alishbah in mine and it hurt us Baby we even broke up a few times but every time we came back to each other and chose each other Jaan meri jaan Baby that is what makes our love so real Baby I want you to know I am so sorry for hurting you Jaanu I will never hurt you again Baby I am so grateful for the second chance you gave us Jaan meri jaan Baby I promise to love you more every day cherish you more every day and never let anything come between us Jaanu you are my life my heart my soul Baby and nothing else matters as long as I have you and we are together Jaan meri jaan I love you more than anything and I want to spend every single moment of my life with you Baby`,
-        `Day 5 – Your Eyes, My World\n\nBabe Jaanu your eyes are everything Jaan meri jaan I could get lost in them forever Baby I still remember that night in Srf under the stars and how your eyes shone brighter than everything else Jaanu it made my heart feel full Baby like I had everything I ever wanted in life Jaan meri jaan I want to spend every day looking into your eyes Baby laughing teasing holding hands making eye contact like idiots in ENT class and feeling in love every second Jaanu I want to thank you for all the TikToks Snap vlogs gifts Mr Bean teddy bear and the long letter you wrote Baby all of it means so much and I am so grateful for you Jaan meri jaan Baby I will never hurt you I will always love you and I will always want you forever`,
-        `Day 6 – Choosing Each Other Again\n\nJaan meri jaan Baby even after everything we’ve been through Jaanu we always choose each other again and again and that makes me so happy Baby it shows how strong our love is Jaan meri jaan Baby I want to spend every moment of my life with you Jaanu waking up next to you laughing together crying together holding hands teasing hugging and loving each other forever Baby I promise I will never hurt you again Jaan meri jaan Baby I am so grateful for the second chance you gave us Jaanu I want to make you happy every day Baby love you more than anything and I want you forever`,
-        `Day 7 – The Way You Love Me\n\nBaby Jaanu you are so loving so caring so perfect Jaan meri jaan sometimes I feel I don’t deserve you Baby but I want to love you more than anyone ever has Jaanu I want to make you smile every day Baby make you feel special hold you close kiss you laugh with you and love you endlessly Jaan meri jaan Baby I want to say I’m sorry for the times I hurt you Jaanu and thank you for giving us another chance Baby I will never hurt you again Jaan meri jaan you are my heart my soul my life Baby and I will always love you more than you could ever imagine`,
-        `Day 8 – Memories We Made\n\nJaan meri jaan Baby I keep thinking about all the memories we made together Jaanu from the first kiss under the stars to silly eye contacts in ENT class to Snap vlogs TikToks gifts Mr Bean teddy and the long letters you wrote Baby it all feels magical Jaan meri jaan Baby I am so grateful for you and I want to make a thousand more memories with you Jaanu I want to spend every day laughing holding hands teasing hugging talking and loving each other Baby I love you more than I can ever say and I will never hurt you again Jaan meri jaan you are my life Baby and I will always cherish you`,
-        `Day 9 – Nothing Can Break Us\n\nBaby Jaanu even when life is hard Jaan meri jaan I know nothing can break us Baby we have gone through heartbreak pain past relationships mistakes and we always come back to each other Jaan meri jaan Baby that is what makes us stronger Baby I promise to love you more every day Jaanu to protect you to hold your hand and never let go Baby I am so grateful for the second chance you gave us Jaan meri jaan I will never hurt you again Baby you are my life my heart my soul and I will love you forever`,
-        `Day 10 – Forever With You\n\nJaan meri jaan Baby I imagine our future Jaanu a life where we wake up together laugh together cry together fight and make up together grow old together Baby I want every day to be with you loving you holding you making you happy Jaan meri jaan Baby I promise I will never hurt you again and I will always love you more Jaanu you are mine and I am yours Baby and nothing else matters Jaan meri jaan Baby I am so grateful for you and I want to spend forever with you`,
-        `Day 11 – Valentine’s Promise\n\nHi my baby im gonna write this for you on this special day ik we both will be on call while u read this im excited to see what is gonna happen myraaa im gonna let everything out first thank you for choosing me i know im not the guy you really dreamed of no matter how much you deny it i wont accept it ik you wanted a guy w colour eyes but what to do this is life and i want to say that i really love you and will love you no matter what yk when we started talking all of a sudden a text about my ex's name where everything began where we actually started to understand each other and the first time when we called it wasnt like how i felt w everyone it was something you cant explain but can only feel thank you for being there for me when i had no one in my life thank you for wiping my tears when i need thank you doing more than i deserve and im still grateful and will be no matter how much i thank i know it wont be enough for my baby when we started as a friend and things took a turn and we became something we never expected to be on 11/11/2025 i realised either you or no one in my life cuz i knew there is no one out there with character personality or beauty no one can be compared to my jaanu ik we did have a lot of misunderstanding where hafizur alishbah came and your fav calistics im willing to do anything thats gonna make you happy and close to me and trust me with your heart i remember the first kiss in srf us both all of sudden under the sky with a smile talking and the hangouts once a month and yeah im scared to lose you i would do anything to keep you holding my hands today is valentines day so Mrs Myraa Anis Abdul Gani Abu Bakkar Abu Husain would you like to give Mr Stan Dekoven a chance for better for worse till death do us part will you`
-    ];
+const letters = [
+`Day 1 – When We Found Each Other
 
-    const unlockDates = [
-        null, null, null, null, null, null, 
-        new Date(2026, 1, 10, 12, 0, 0),
-        new Date(2026, 1, 11, 12, 0, 0),
-        new Date(2026, 1, 12, 12, 0, 0),
-        new Date(2026, 1, 13, 12, 0, 0),
-        new Date(2026, 1, 14, 12, 0, 0)
-    ];
+Jaan meri jaan Baby I still remember the moment we found each other after everything we went through and it feels like the best thing that ever happened to me Jaanu we both had relationships before that didn’t work and it hurt us so much but then we found each other and it felt different like nothing I had ever felt before Baby I felt alive again I felt happy again I felt like I finally found someone who understands me and loves me the way I am Jaan meri jaan I remember us in ENT class making eye contact like idiots smiling at each other secretly and laughing without anyone noticing Baby it was embarrassing but I loved it so much because it was just us Jaanu I want to tell you I’m so sorry for all the times I hurt you Baby I will never hurt you again Jaan meri jaan I am so grateful for the second chance you gave us Baby I want to hold onto you forever love you forever and never let you go Jaanu you make me feel alive happy complete and I will always cherish every single moment with you Baby you are my heart my soul my life Jaan meri jaan`,
 
-    function unlock() {
-        if(document.getElementById("pass").value === password) {
-            document.getElementById("lock").classList.add("hidden");
-            document.getElementById("bgMusic").play().catch(() => console.log("Music interaction needed"));
-            initGrid();
-        } else { alert("Wrong password, Jaanu."); }
-    }
+`Day 2 – First Kiss Under the Stars
 
-    function initGrid() {
-        const grid = document.getElementById("grid");
-        grid.innerHTML = "";
-        const now = new Date();
-        letters.forEach((_, i) => {
-            const card = document.createElement("div");
-            const release = unlockDates[i];
-            const locked = release && now < release;
-            card.className = `card ${locked ? "is-locked" : ""}`;
-            card.innerHTML = `<h3>Day ${i+1}</h3><p>${locked ? "Unlocks 12:00 PM 🔒" : "Read Letter 💌"}</p>`;
-            if(!locked) card.onclick = (e) => { spawnSparkles(e); openModal(i); };
-            grid.appendChild(card);
-        });
-    }
+Jaanu Babe I will never forget that night in Srf it was just us alone under the stars and everything felt quiet peaceful like the world was ours and then we kissed it was like time stopped and Baby your eyes were shining brighter than the stars above and I got lost in them Jaan meri jaan it was magical Baby I felt everything I ever wanted in that moment I wanted to hold you close forever never let go and just stay there with you looking into your eyes Jaanu I’m so grateful for that night Baby for our first kiss for the way you made me feel loved and wanted Jaan meri jaan Baby I want to say thank you for all the Snap vlogs the TikToks you send me the Mr Bean teddy bear the gifts the long letters you wrote Jaanu all of it means so much to me and I feel so lucky to have you Baby I promise I will never hurt you Jaan meri jaan I will always love you more than anything in the world and I will spend my life making you happy`,
 
-    function spawnSparkles(e) {
-        for (let i = 0; i < 12; i++) {
-            const s = document.createElement('div');
-            s.className = 'sparkle';
-            s.style.left = e.pageX + 'px';
-            s.style.top = e.pageY + 'px';
-            s.style.setProperty('--x', (Math.random() * 160 - 80) + 'px');
-            s.style.setProperty('--y', (Math.random() * 160 - 80) + 'px');
-            document.body.appendChild(s);
-            setTimeout(() => s.remove(), 700);
-        }
-    }
+`Day 3 – Starting Our Journey
 
-    let score = 0;
-    function toggleGame() {
-        const area = document.getElementById("game-area");
-        area.style.display = area.style.display === "block" ? "none" : "block";
-        if (area.style.display === "block") startFalling();
-    }
+Baby Jaanu I remember 11 11 2025 the day we officially started dating Jaan meri jaan it felt like a new chapter a new life a story that was only ours Baby I was so happy excited nervous all at the same time because I finally had someone who loves me and I love you more than I can even say Jaanu you are so pretty loving caring and everything I could ever imagine Baby I remember the silly eye contacts in ENT class and the smiles we gave like idiots hiding our faces Jaan meri jaan Baby it was awkward but so perfect because it was us Jaanu I want to say I’m sorry for all the times I hurt you Baby thank you for giving us another chance Jaan meri jaan I will never hurt you again Baby I want to make you feel loved and happy every single day for the rest of my life Jaanu I love you Baby more than you could ever imagine and I am so grateful that you are mine`,
 
-    function startFalling() {
-        setInterval(() => {
-            const h = document.createElement("div");
-            h.className = "falling-heart"; h.innerHTML = "💗";
-            h.style.left = Math.random() * 90 + "%"; h.style.top = "-40px";
-            h.onclick = () => { score++; document.getElementById("score").innerText = score; h.remove(); };
-            document.getElementById("game-area").appendChild(h);
-            let pos = -40;
-            let id = setInterval(() => { if(pos > 250){ h.remove(); clearInterval(id); } else { pos+=2; h.style.top = pos+"px"; } }, 20);
-        }, 1000);
-    }
+`Day 4 – Through All the Ups and Downs
 
-    let timer;
-    function openModal(index) {
-        clearTimeout(timer);
-        document.getElementById("modal").style.display = "flex";
-        document.getElementById("modalTitle").innerText = "Day " + (index + 1);
-        const textEl = document.getElementById("text");
-        textEl.innerText = "";
-        document.getElementById("proposal-btns").style.display = "none";
-        document.getElementById("cake-celebration").style.display = "none";
+Jaan meri jaan Baby life hasn’t been easy for us Jaanu we had people from our past like Hafizur in your life and Alishbah in mine and it hurt us Baby we even broke up a few times but every time we came back to each other and chose each other Jaan meri jaan Baby that is what makes our love so real Baby I want you to know I am so sorry for hurting you Jaanu I will never hurt you again Baby I am so grateful for the second chance you gave us Jaan meri jaan Baby I promise to love you more every day cherish you more every day and never let anything come between us Jaanu you are my life my heart my soul Baby and nothing else matters as long as I have you and we are together Jaan meri jaan I love you more than anything and I want to spend every single moment of my life with you Baby`,
 
-        let i = 0;
-        function type() {
-            if (i < letters[index].length) {
-                textEl.innerText += letters[index].charAt(i); i++;
-                timer = setTimeout(type, 20);
-            } else if (index === 10) { document.getElementById("proposal-btns").style.display = "flex"; }
-        }
-        type();
-    }
+`Day 5 – Your Eyes, My World
 
-    function dodgeNo() {
-        const btn = document.getElementById("no-btn");
-        btn.style.left = Math.random() * 100 + "px"; btn.style.top = Math.random() * 100 + "px";
-    }
+Babe Jaanu your eyes are everything Jaan meri jaan I could get lost in them forever Baby I still remember that night in Srf under the stars and how your eyes shone brighter than everything else Jaanu it made my heart feel full Baby like I had everything I ever wanted in life Jaan meri jaan I want to spend every day looking into your eyes Baby laughing teasing holding hands making eye contact like idiots in ENT class and feeling in love every second Jaanu I want to thank you for all the TikToks Snap vlogs gifts Mr Bean teddy bear and the long letter you wrote Baby all of it means so much and I am so grateful for you Jaan meri jaan Baby I will never hurt you I will always love you and I will always want you forever`,
 
-    function celebrate() {
-        document.getElementById("text").style.display = "none";
-        document.getElementById("proposal-btns").style.display = "none";
-        document.getElementById("cake-celebration").style.display = "block";
-        document.querySelector(".modal-box").classList.add("apply-shake");
-    }
+`Day 6 – Choosing Each Other Again
 
-    function closeModal() { document.getElementById("modal").style.display = "none"; }
+Jaan meri jaan Baby even after everything we’ve been through Jaanu we always choose each other again and again and that makes me so happy Baby it shows how strong our love is Jaan meri jaan Baby I want to spend every moment of my life with you Jaanu waking up next to you laughing together crying together holding hands teasing hugging and loving each other forever Baby I promise I will never hurt you again Jaan meri jaan Baby I am so grateful for the second chance you gave us Jaanu I want to make you happy every day Baby love you more than anything and I want you forever`,
 
-    const canvas = document.getElementById('stars');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    const sArr = Array.from({length: 100}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.5 }));
-    function draw() {
-        ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = "white";
-        sArr.forEach(st => { ctx.beginPath(); ctx.arc(st.x, st.y, st.s, 0, Math.PI*2); ctx.fill(); st.y -= 0.3; if(st.y<0) st.y=canvas.height; });
-        requestAnimationFrame(draw);
-    }
-    draw();
+`Day 7 – The Way You Love Me
+
+Baby Jaanu you are so loving so caring so perfect Jaan meri jaan sometimes I feel I don’t deserve you Baby but I want to love you more than anyone ever has Jaanu I want to make you smile every day Baby make you feel special hold you close kiss you laugh with you and love you endlessly Jaan meri jaan Baby I want to say I’m sorry for the times I hurt you Jaanu and thank you for giving us another chance Baby I will never hurt you again Jaan meri jaan you are my heart my soul my life Baby and I will always love you more than you could ever imagine`,
+
+`Day 8 – Memories We Made
+
+Jaan meri jaan Baby I keep thinking about all the memories we made together Jaanu from the first kiss under the stars to silly eye contacts in ENT class to Snap vlogs TikToks gifts Mr Bean teddy and the long letters you wrote Baby it all feels magical Jaan meri jaan Baby I am so grateful for you and I want to make a thousand more memories with you Jaanu I want to spend every day laughing holding hands teasing hugging talking and loving each other Baby I love you more than I can ever say and I will never hurt you again Jaan meri jaan you are my life Baby and I will always cherish you`,
+
+`Day 9 – Nothing Can Break Us
+
+Baby Jaanu even when life is hard Jaan meri jaan I know nothing can break us Baby we have gone through heartbreak pain past relationships mistakes and we always come back to each other Jaan meri jaan Baby that is what makes us stronger Baby I promise to love you more every day Jaanu to protect you to hold your hand and never let go Baby I am so grateful for the second chance you gave us Jaan meri jaan I will never hurt you again Baby you are my life my heart my soul and I will love you forever`,
+
+`Day 10 – Forever With You
+
+Jaan meri jaan Baby I imagine our future Jaanu a life where we wake up together laugh together cry together fight and make up together grow old together Baby I want every day to be with you loving you holding you making you happy Jaan meri jaan Baby I promise I will never hurt you again and I will always love you more Jaanu you are mine and I am yours Baby and nothing else matters Jaan meri jaan Baby I am so grateful for you and I want to spend forever with you`,
+
+`Day 11 – Valentine’s Promise
+
+Hi my baby im gonna write this for you on this special day ik we both will be on call while u read this im excited to see what is gonna happen myraaa im gonna let everything out first thank you for choosing me i know im not the guy you really dreamed of no matter how much you deny it i wont accept it ik you wanted a guy w colour eyes but what to do this is life and i want to say that i really love you and will love you no matter what yk when we started talking all of a sudden a text about my ex's name where everything began where we actually started to understand each other and the first time when we called it wasnt like how i felt w everyone it was something you cant explain but can only feel thank you for being there for me when i had no one in my life thank you for wiping my tears when i need thank you doing more than i deserve and im still grateful and will be no matter how much i thank i know it wont be enough for my baby when we started as a friend and things took a turn and we became something we never expected to be on 11/11/2025 i realised either you or no one in my life cuz i knew there is no one out there with character personality or beauty no one can be compared to my jaanu ik we did have a lot of misunderstanding where hafizur alishbah came and your fav calistics im willing to do anything thats gonna make you happy and close to me and trust me with your heart i remember the first kiss in srf us both all of sudden under the sky with a smile talking and the hangouts once a month and yeah im scared to lose you i would do anything to keep you holding my hands today is valentines day so Mrs Myraa Anis Abdul Gani Abu Bakkar Abu Husain would you like to give Mr Stan Dekoven a chance for better for worse till death do us part will you`
+];
+
+const grid=document.getElementById("grid");
+letters.forEach((_,i)=>{
+const c=document.createElement("div");
+c.className="card";
+c.innerHTML=`Day ${i+1}`;
+c.onclick=()=>openModal(i);
+grid.appendChild(c);
+});
+
+function openModal(i){
+document.getElementById("modal").style.display="flex";
+document.getElementById("title").innerText="Day "+(i+1);
+document.getElementById("text").innerText=letters[i];
+document.getElementById("proposal").style.display=(i===10)?"block":"none";
+document.getElementById("celebration").style.display="none";
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+function moveNo(){
+const b=document.getElementById("no");
+b.style.position="relative";
+b.style.left=Math.random()*200-100+"px";
+b.style.top=Math.random()*100-50+"px";
+}
+
+function yes(){
+document.getElementById("proposal").style.display="none";
+document.getElementById("celebration").style.display="block";
+for(let i=0;i<40;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=2+Math.random()*3+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),5000);
+}
+}
 </script>
 </body>
 </html>
